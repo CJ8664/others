@@ -2,6 +2,8 @@
 
 # Problem URL : https://code.google.com/codejam/contest/6254486/dashboard#s=p1
 
+decider = 1
+
 def getNumberOfManeuver(input_stack):
 
 	# Variable that stores the number of maneuvers
@@ -16,33 +18,42 @@ def getNumberOfManeuver(input_stack):
 	# Perform maneuver
 	else:
 		i = len(input_stack) - 1
+		counter = 0
 
-		while( i>=0 ):
-			if(input_stack[i] == 1): # Already is a happy face do nothing
-				i -= 1
-				continue
-			else:
-				break	
+		while(sum(input_stack) != len(input_stack) and sum(input_stack) != 0 ):
+			decider = input_stack[i]
+			#print (i,decider,input_stack)
+			while( i >= 0 ):
+				if(input_stack[i] == decider): # Already is a happy face do nothing
+					i -= 1
+					continue
+				else:
+					temp_stack = ([ (x+1)%2 for x in input_stack[:i+1]])[::-1]
+					mans +=1
+					input_stack = temp_stack + input_stack[i+1:]
+					break
 
-		if( i > 0): # Perform Maneuver
-			new_stack = ([ (x+1)%2 for x in input_stack[:i+1]])[::-1] # Filp and reverse	
-			if ( new_stack != [1, 0] and new_stack != [0, 1]):
-				mans += 1
-			mans += getNumberOfManeuver(new_stack)
+			if (i<0):
+				i = len(input_stack) - 1
 
-	return mans
+		if(sum(input_stack) == 0):
+			return mans+1
+		else:
+			return mans
 
 def main():
 
-	global mans
+	global mans, decider
 
-	input_handle = open('B-small-practice.in','r')
+	input_handle = open('B-large-practice.in','r')
 
 	num_test_cases = int(input_handle.readline().strip())
 
 	for test_case in xrange(1, num_test_cases+1):
 
 		input_stack = [ 1 if x == '+' else 0 for x in input_handle.readline().strip()]
+
+		decider = input_stack[-1]
 
 		mans = getNumberOfManeuver(input_stack)
 		print('Case #' + str(test_case) + ': ' + str(mans))
