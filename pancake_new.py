@@ -45,7 +45,7 @@ def main():
 
 	global mans, decider
 
-	input_handle = open('B-large-practice.in','r')
+	input_handle = open('B-small-practice.in','r')
 
 	num_test_cases = int(input_handle.readline().strip())
 
