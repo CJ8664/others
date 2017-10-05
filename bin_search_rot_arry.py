@@ -15,6 +15,7 @@ for testcase in range(int(input())):
     i = 0
     found = False
     if input_array[i] == key:
+        found = True
         print('{}'.format(i))
     elif key < input_array[i]: # Search backwards till rotate found
         i = array_len -1
